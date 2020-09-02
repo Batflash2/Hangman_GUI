@@ -80,8 +80,14 @@ def draw():
             text = LETTER_FONT.render(ltr, 1, BLACK)
             win.blit(text, (x - text.get_width() // 2, y - text.get_height() // 2))
 
+    # draw space button
+    rectangle = pygame.Rect(450, 450, 300, 40)
+    pygame.draw.rect(win, BLACK, rectangle, 3)
+    text = LETTER_FONT.render("SPACE", 1, BLACK)
+    win.blit(text, ((WIDTH - text.get_width()) // 2, 455))
+
     # draw images
-    win.blit(images[hangman_status], (150, 100))
+    win.blit(images[hangman_status], (100, 100))
     pygame.display.update()
 
 
