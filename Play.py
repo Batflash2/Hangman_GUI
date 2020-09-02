@@ -23,11 +23,13 @@ LETTER_FONT = pygame.font.SysFont('comicsans', 40)
 WORD_FONT = pygame.font.SysFont('comicsans', 60)
 TITLE_FONT = pygame.font.SysFont('comicsans', 80)
 
-# button placement
+# button position assignment
 for i in range(26):
     x = startx + GAP * 2 + (RADIUS * 2 + GAP) * (i % 13)
     y = starty + ((i // 13) * (GAP + RADIUS * 2))
     letters.append([x, y, chr(65 + i), True])
+
+    SPACE = [450, 450, 300, 40, True]
 
 
 # load images
@@ -81,10 +83,12 @@ def draw():
             win.blit(text, (x - text.get_width() // 2, y - text.get_height() // 2))
 
     # draw space button
-    rectangle = pygame.Rect(450, 450, 300, 40)
-    pygame.draw.rect(win, BLACK, rectangle, 3)
-    text = LETTER_FONT.render("SPACE", 1, BLACK)
-    win.blit(text, ((WIDTH - text.get_width()) // 2, 455))
+    x, y, w, h, visible = SPACE
+    if visible:
+        rectangle = pygame.Rect(x, y, w, h)
+        pygame.draw.rect(win, BLACK, rectangle, 3)
+        text = LETTER_FONT.render("SPACE", 1, BLACK)
+        win.blit(text, ((WIDTH - text.get_width()) // 2, 455))
 
     # draw images
     win.blit(images[hangman_status], (100, 100))
@@ -92,12 +96,14 @@ def draw():
 
 
 def display_message(message):
-    pygame.time.delay(1000)
-    win.fill(WHITE)
+    pygame.time.delay(500)
+    win.fill(GREY)
     text = WORD_FONT.render(message, 1, BLACK)
     win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
+    text = WORD_FONT.render(word, 1, BLACK)
+    win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2 + 100))
     pygame.display.update()
-    pygame.time.delay(3000)
+    pygame.time.delay(2000)
 
 
 while run:
@@ -109,7 +115,6 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print(guessed)
             m_x, m_y = pygame.mouse.get_pos()
             for letter in letters:
                 x, y, ltr, visible = letter
@@ -120,6 +125,13 @@ while run:
                         guessed.append(ltr)
                         if ltr not in word:
                             hangman_status += 1
+
+            x, y, w, h, visible = SPACE
+            if x < m_x < x + w and y < m_y < y + h and visible:
+                if " " not in word:
+                    hangman_status += 1
+                guessed.append(" ")
+                SPACE[4] = False
 
     won = True
     for letter in word:
