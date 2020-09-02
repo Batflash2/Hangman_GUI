@@ -99,9 +99,9 @@ def display_message(message):
     pygame.time.delay(500)
     win.fill(GREY)
     text = WORD_FONT.render(message, 1, BLACK)
-    win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
+    win.blit(text, (WIDTH/2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
     text = WORD_FONT.render(word, 1, BLACK)
-    win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2 + 100))
+    win.blit(text, (WIDTH/2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2 + 100))
     pygame.display.update()
     pygame.time.delay(2000)
 
@@ -143,7 +143,7 @@ while run:
         display_message("You WON!")
         break
 
-    if hangman_status == 6:
+    if hangman_status == 7:
         display_message("You LOST!")
         break
 
