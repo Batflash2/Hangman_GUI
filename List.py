@@ -13,4 +13,4 @@ def pick():
         'the dark knight', 'iron man', 'taxi driver', 'babys day out',
         'ghost busters', 'avatar', 'the lion king', 'gladiator', 'frankenstein'
     ]
-    return random.choice(movies)
+    return random.choice(movies).upper()
