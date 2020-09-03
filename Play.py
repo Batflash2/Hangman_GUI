@@ -39,7 +39,7 @@ for i in range(7):
 
 # game variables
 hangman_status = 0
-word = pick()
+# word = pick()
 guessed = []
 
 
@@ -109,14 +109,14 @@ def again():
     text = WORD_FONT.render("Do you want to play again?", 1, BLACK)
     win.blit(text, (WIDTH/2 - text.get_width()//2, HEIGHT/2 - text.get_height()//2))
     for i in yes_no:
-        x, y, w, h = i
+        x, y, w, h, yn = i
         rectangle = pygame.Rect(x, y, w, h)
         pygame.draw.rect(win, BLACK, rectangle, 3)
 
     text = LETTER_FONT.render("YES", 1, BLACK)
-    win.blit(text, (350, 310))
+    win.blit(text, (400, 310))
     text = LETTER_FONT.render("NO", 1, BLACK)
-    win.blit(text, (550, 310))
+    win.blit(text, (700, 310))
 
     pygame.display.update()
 
@@ -125,36 +125,34 @@ def again():
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-                run2 = False
-                run3 = False
+                pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 m_x, m_y = pygame.mouse.get_pos()
                 for i in yes_no:
                     x, y, w, h, yn = i
                     if x < m_x < x + w and y < m_y < y + h:
                         if yn == "yes":
-                            run = False
                             run2 = False
                         else:
-                            run = False
-                            run2 = False
-                            run3 = False
+                            pygame.quit()
 
 
-run3 = True
-while run3:
+while True:
+    hangman_status = 0
+    guessed = []
+    word = pick()
+    for i in range(26):
+        letters[i][3] = True
+        SPACE[4] = True
 
-    run = True
-    while run:
+    while True:
         clock.tick(FPS)
 
         draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-                run3 = False
+                pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 m_x, m_y = pygame.mouse.get_pos()
                 for letter in letters:
@@ -183,10 +181,9 @@ while run3:
         if won:
             display_message("You WON!")
             again()
+            break
 
         if hangman_status == 7:
             display_message("You LOST!")
             again()
-
-
-pygame.quit()
+            break
