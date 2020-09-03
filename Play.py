@@ -37,14 +37,8 @@ for i in range(7):
     images.append(pygame.image.load("hangman" + str(i) + ".png"))
 
 
-# game variables
-hangman_status = 0
-# word = pick()
-guessed = []
-
-
 # colors
-WHITE = (255, 255, 255)
+# WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (83, 86, 90)
 
@@ -54,6 +48,7 @@ FPS = 60
 clock = pygame.time.Clock()
 
 
+# This function displays the buttons, word and the image
 def draw():
     # Background color
     win.fill(GREY)
@@ -93,6 +88,7 @@ def draw():
     pygame.display.update()
 
 
+# This function runs after the game ends and tells the player if he/she won or lost and also tells them the answer
 def display_message(message):
     pygame.time.delay(500)
     win.fill(GREY)
@@ -104,6 +100,7 @@ def display_message(message):
     pygame.time.delay(2000)
 
 
+# This function runs after the game ends and asks the player if he/she wants to play again
 def again():
     win.fill(GREY)
     text = WORD_FONT.render("Do you want to play again?", 1, BLACK)
@@ -120,8 +117,8 @@ def again():
 
     pygame.display.update()
 
-    run2 = True
-    while run2:
+    run = True
+    while run:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -132,12 +129,15 @@ def again():
                     x, y, w, h, yn = i
                     if x < m_x < x + w and y < m_y < y + h:
                         if yn == "yes":
-                            run2 = False
+                            run = False
+                            break
                         else:
                             pygame.quit()
 
 
+# main loop
 while True:
+    # Sets the value to the default values
     hangman_status = 0
     guessed = []
     word = pick()
@@ -145,6 +145,7 @@ while True:
         letters[i][3] = True
         SPACE[4] = True
 
+    # Continuously checks for mouse input and takes the appropriate action
     while True:
         clock.tick(FPS)
 
@@ -159,13 +160,16 @@ while True:
                     x, y, ltr, visible = letter
                     if visible:
                         dis = math.sqrt((x - m_x)**2 + (y - m_y)**2)
+                        # Checks if the mouse click was within a letter button
                         if dis < RADIUS:
                             letter[3] = False
                             guessed.append(ltr)
                             if ltr not in word:
                                 hangman_status += 1
+                            break
 
                 x, y, w, h, visible = SPACE
+                # Checks if the mouse click was within the space button
                 if x < m_x < x + w and y < m_y < y + h and visible:
                     if " " not in word:
                         hangman_status += 1
