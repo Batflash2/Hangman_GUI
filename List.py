@@ -1,6 +1,6 @@
 import random
 
-
+# this function has a list of movies from which a random one is picked and returned to the calling function
 def pick():
     movies = [
         'aquaman',
@@ -62,4 +62,5 @@ def pick():
         'pearl'
 
     ]
+
     return random.choice(movies).upper()

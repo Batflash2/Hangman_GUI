@@ -17,7 +17,7 @@ letters = []
 startx = round((WIDTH - (RADIUS * 2 + GAP) * 13) / 2)
 starty = 350
 SPACE = [450, 450, 300, 40, True]
-yes_no = [[WIDTH//2 - 150, 300, 100, 50, "YES"], [WIDTH//2 + 50, 300, 100, 50, "NO"]]
+yes_no = [[WIDTH//2 - 150, HEIGHT//2, 100, 50, "YES"], [WIDTH//2 + 50, HEIGHT//2, 100, 50, "NO"]]
 
 # fonts
 LETTER_FONT = pygame.font.SysFont('comicsans', 40)
@@ -93,9 +93,9 @@ def display_message(message):
     pygame.time.delay(500)
     win.fill(GREY)
     text = WORD_FONT.render(message, 1, BLACK)
-    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
+    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//4 - text.get_height()//2))
     text = WORD_FONT.render(word, 1, BLACK)
-    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2 + 100))
+    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
     pygame.display.update()
     pygame.time.delay(2000)
 
@@ -104,7 +104,7 @@ def display_message(message):
 def again():
     win.fill(GREY)
     text = WORD_FONT.render("Do you want to play again?", 1, BLACK)
-    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
+    win.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//4 - text.get_height()//2))
     for i in yes_no:
         x, y, w, h, yn = i
         rectangle = pygame.Rect(x, y, w, h)
