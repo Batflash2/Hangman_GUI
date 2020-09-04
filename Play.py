@@ -133,58 +133,59 @@ def again():
 
 
 # main loop
-while True:
-    # Sets the value to the default values
-    hangman_status = 0
-    guessed = []
-    word = pick()
-    for i in range(26):
-        letters[i][3] = True
-        SPACE[4] = True
-
-    # Continuously checks for mouse input and takes the appropriate action
+if __name__ == '__main__':
     while True:
-        clock.tick(FPS)
+        # Sets the value to the default values
+        hangman_status = 0
+        guessed = []
+        word = pick()
+        for i in range(26):
+            letters[i][3] = True
+            SPACE[4] = True
 
-        draw()
+        # Continuously checks for mouse input and takes the appropriate action
+        while True:
+            clock.tick(FPS)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                m_x, m_y = pygame.mouse.get_pos()
-                for letter in letters:
-                    x, y, ltr, visible = letter
-                    if visible:
-                        dis = math.sqrt((x - m_x)**2 + (y - m_y)**2)
-                        # Checks if the mouse click was within a letter button
-                        if dis < RADIUS:
-                            letter[3] = False
-                            guessed.append(ltr)
-                            if ltr not in word:
-                                hangman_status += 1
-                            break
+            draw()
 
-                x, y, w, h, visible = SPACE
-                # Checks if the mouse click was within the space button
-                if x < m_x < x + w and y < m_y < y + h and visible:
-                    if " " not in word:
-                        hangman_status += 1
-                    guessed.append(" ")
-                    SPACE[4] = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    m_x, m_y = pygame.mouse.get_pos()
+                    for letter in letters:
+                        x, y, ltr, visible = letter
+                        if visible:
+                            dis = math.sqrt((x - m_x)**2 + (y - m_y)**2)
+                            # Checks if the mouse click was within a letter button
+                            if dis < RADIUS:
+                                letter[3] = False
+                                guessed.append(ltr)
+                                if ltr not in word:
+                                    hangman_status += 1
+                                break
 
-        won = True
-        for letter in word:
-            if letter not in guessed:
-                won = False
+                    x, y, w, h, visible = SPACE
+                    # Checks if the mouse click was within the space button
+                    if x < m_x < x + w and y < m_y < y + h and visible:
+                        if " " not in word:
+                            hangman_status += 1
+                        guessed.append(" ")
+                        SPACE[4] = False
+
+            won = True
+            for letter in word:
+                if letter not in guessed:
+                    won = False
+                    break
+
+            if won:
+                display_message("You WON!")
+                again()
                 break
 
-        if won:
-            display_message("You WON!")
-            again()
-            break
-
-        if hangman_status == 7:
-            display_message("You LOST!")
-            again()
-            break
+            if hangman_status == 7:
+                display_message("You LOST!")
+                again()
+                break
