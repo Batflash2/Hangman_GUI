@@ -78,8 +78,7 @@ def draw():
     # draw space button
     x, y, w, h, visible = SPACE
     if visible:
-        rectangle = pygame.Rect(x, y, w, h)
-        pygame.draw.rect(win, BLACK, rectangle, 3)
+        pygame.draw.rect(win, BLACK, [x, y, w, h], 3)
         text = LETTER_FONT.render("SPACE", 1, BLACK)
         win.blit(text, ((WIDTH - text.get_width()) // 2, 455))
 
